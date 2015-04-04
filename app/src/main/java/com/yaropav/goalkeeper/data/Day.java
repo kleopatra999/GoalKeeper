@@ -1,5 +1,6 @@
 package com.yaropav.goalkeeper.data;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -7,11 +8,11 @@ import java.util.Date;
  */
 public class Day {
     private String mNote;
-    private Date mDate;
+    private long mTimeStamp;
     private boolean mIsCompleted;
-    public Day(String text, Date date, boolean isCompleted) {
+    public Day(String text, long timeStamp, boolean isCompleted) {
         mNote = text;
-        mDate = date;
+        mTimeStamp = timeStamp;
         mIsCompleted = isCompleted;
     }
 
@@ -31,11 +32,7 @@ public class Day {
         mNote = text;
     }
 
-    public Date getDate() {
-        return mDate;
-    }
+    public long getTimeStamp() { return mTimeStamp; }
 
-    public void setDate(Date date) {
-        mDate = date;
-    }
+    public void setmTimeStamp(long mTimeStamp) { this.mTimeStamp = mTimeStamp; }
 }

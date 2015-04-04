@@ -10,7 +10,7 @@ import com.yaropav.goalkeeper.data.DataSerializer;
 import com.yaropav.goalkeeper.data.Day;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by Ярик on 04.04.2015.
@@ -26,12 +26,16 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 ArrayList<Day> days = chain.getDays();
                 Day today = days.get(days.size());
 
-                if(!DateUtils.isToday(today.getDate().getTime())) {
-                    today = new Day("You miserably failed this day", new Date(), false);
+                if(!DateUtils.isToday(today.getTimeStamp())) {
+                    today = new Day("You miserably failed this day", Calendar.getInstance().getTimeInMillis(), false);
+                    days.add(today);
                 }
 
                 ArrayList<Day> week = new ArrayList<>();
-                for (int i = 0; i < today.getDate().getDay(); i++ ) { week.add(days.get(days.size() - i)); }
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(today.getTimeStamp());
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK); //todo probably it won't work for some locales
+                for (int i = 0; i < dayOfWeek; i++ )  week.add(days.get(days.size() - i));
 
                 int allowedNumOfSkips = 7 - chain.getWeekAim();
                 int failsThisWeek = 0;
@@ -41,6 +45,8 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 }
 
                 if(failsThisWeek > allowedNumOfSkips) chain.setFailed(true);
+
+                serializer.save(chain, MainActivity.CHAINS_PREF_KEY);
             }
         }
     }
