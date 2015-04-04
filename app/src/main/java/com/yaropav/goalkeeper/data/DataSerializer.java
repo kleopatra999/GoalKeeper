@@ -31,7 +31,7 @@ public class DataSerializer<T> {
 
     public final String LOG_TAG = getClass().getSimpleName();
 
-    private DataSerializer(Context context) {
+    public DataSerializer(Context context) {
         gson = new Gson();
         prefs = context.getSharedPreferences("prefs", Context.MODE_MULTI_PROCESS);
     }
