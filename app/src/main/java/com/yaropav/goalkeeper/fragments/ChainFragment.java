@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.yaropav.goalkeeper.MainActivity;
 import com.yaropav.goalkeeper.R;
 import com.yaropav.goalkeeper.data.Chain;
 
@@ -23,6 +24,8 @@ import com.yaropav.goalkeeper.data.Chain;
 public class ChainFragment extends Fragment {
 
     private static final String CHAIN_KEY = "chain";
+
+    private boolean mInEditText;
 
     public static Fragment newInstance(Chain chain) {
         Bundle bundle = new Bundle();
@@ -52,18 +55,19 @@ public class ChainFragment extends Fragment {
         name.setText(mChain.getName());
         name.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mInEditText) return;
+                mInEditText = true;
+                if (!s.toString().equals("")) mChain.setName(s.toString());
+                mInEditText = false;
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                ((MainActivity) getActivity()).updateHeader(mChain.getName());
             }
         });
     }

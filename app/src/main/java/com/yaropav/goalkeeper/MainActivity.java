@@ -59,13 +59,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         serializer.save(mChains, CHAINS_PREF_KEY);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        DataSerializer<Chain> serializer = new DataSerializer<>(this);
-        mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
-    }
-
     private void setLayout() {
         ChainPagerAdapter adapter = new ChainPagerAdapter(mChains, getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -108,6 +101,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 broadcast);
     }
 
+    public void updateHeader(String newHeader) {
+        mChainHeader.setText(newHeader);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
