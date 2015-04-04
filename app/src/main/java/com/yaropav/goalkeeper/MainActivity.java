@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
+import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.DataSerializer;
@@ -22,6 +24,8 @@ import java.util.Calendar;
 public class MainActivity extends ActionBarActivity {
 
     public static final String CHAINS_PREF_KEY = "pref_key_chains";
+
+    private TextView mChainHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,10 @@ public class MainActivity extends ActionBarActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         View pagerIndicatorView = getLayoutInflater().inflate(R.layout.pager_indicator, null);
-        TitlePageIndicator pageIndicator = (TitlePageIndicator) pagerIndicatorView.findViewById(R.id.page_indicator);
+        CirclePageIndicator pageIndicator = (CirclePageIndicator) pagerIndicatorView.findViewById(R.id.page_indicator);
+        mChainHeader = (TextView) pagerIndicatorView.findViewById(R.id.chain_name);
         pageIndicator.setViewPager(pager);
+        pageIndicator.setOnPageChangeListener(new ChainChangeListener(chains, pager.getCurrentItem()));
         setSupportActionBar((Toolbar) findViewById(R.id.app_bar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
@@ -67,6 +73,32 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    private class ChainChangeListener implements ViewPager.OnPageChangeListener {
+
+        private ArrayList<Chain> mData;
+
+        public ChainChangeListener(ArrayList<Chain> data, int current) {
+            mData = data;
+            onPageSelected(current);
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mChainHeader.setText(position < mData.size()
+                    ? mData.get(position).getName() : "ADD CHAIN");
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 
 }

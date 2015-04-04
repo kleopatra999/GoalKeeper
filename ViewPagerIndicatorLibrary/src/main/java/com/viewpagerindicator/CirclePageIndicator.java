@@ -58,8 +58,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
     private int mOrientation;
     private boolean mCentered;
     private boolean mSnap;
-    private TextView mTabTitle;
-    private String[] TITLES;
 
     private int mTouchSlop;
     private float mLastMotionX = -1;
@@ -428,7 +426,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
             mSnapPage = position;
             invalidate();
         }
-        mTabTitle.setText(TITLES[position]);
 
         if (mListener != null) {
             mListener.onPageSelected(position);
@@ -523,15 +520,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
         SavedState savedState = new SavedState(superState);
         savedState.currentPage = mCurrentPage;
         return savedState;
-    }
-
-    public void setTabTitle(TextView tabTitle, int current) {
-        mTabTitle = tabTitle;
-        mTabTitle.setText(TITLES[current]);
-    }
-
-    public void setTitles(String[] TITLES) {
-        this.TITLES = TITLES;
     }
 
     static class SavedState extends BaseSavedState {

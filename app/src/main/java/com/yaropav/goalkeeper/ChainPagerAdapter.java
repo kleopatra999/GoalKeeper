@@ -23,12 +23,6 @@ public class ChainPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return position < mData.size()
-                ? mData.get(position).getName().toUpperCase() : "ADD CHAIN";
-    }
-
-    @Override
     public Fragment getItem(int position) {
         return position < mData.size()
                 ? ChainFragment.newInstance(mData.get(position)) : new AddChainFragment();
