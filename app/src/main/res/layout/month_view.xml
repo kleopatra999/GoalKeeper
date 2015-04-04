@@ -6,10 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="MONTH"/>
-    <TableLayout
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-        </TableRow>
-        </TableLayout>
+        android:layout_height="wrap_content"></GridLayout>
 </LinearLayout>
