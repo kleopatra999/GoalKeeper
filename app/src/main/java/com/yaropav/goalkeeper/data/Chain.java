@@ -13,7 +13,6 @@ import java.util.UUID;
  */
 public class Chain implements Serializable {
 
-    private UUID mId;
     private boolean mIsFailed;
     private int mWeeklySkips;
     private String mName;

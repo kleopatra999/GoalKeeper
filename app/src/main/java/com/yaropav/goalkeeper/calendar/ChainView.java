@@ -58,11 +58,11 @@ public class ChainView {
 
         TextView cellTextView = (TextView) cell.findViewById(R.id.cell);
 
-        cellTextView.setText(i + 1);
+        cellTextView.setText("" + i + 1);
 
         holder.addView(cell);
 
-        Log.d(getClass().getSimpleName(), "day # i");
+        Log.d(getClass().getSimpleName(), "day i");
 
     }
 

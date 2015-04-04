@@ -3,13 +3,14 @@ package com.yaropav.goalkeeper.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Ярик on 04.04.2015.
  */
-public class Day {
+public class Day implements Serializable {
     private String mNote;
     private long mTimeStamp;
     private boolean mIsCompleted;
