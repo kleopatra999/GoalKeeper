@@ -3,21 +3,19 @@ package com.yaropav.goalkeeper;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.DataSerializer;
 
@@ -60,6 +58,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void setLayout() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+           getWindow().setStatusBarColor(getResources().getColor(R.color.darkPrimaryColor));
+        }
+
         ChainPagerAdapter adapter = new ChainPagerAdapter(mChains, getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(adapter);
@@ -85,6 +87,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
         mAddFab.setOnClickListener(this);
         mDeleteFab.setOnClickListener(this);
+        mCheckFab.setOnClickListener(this);
     }
 
     private void scheduleAlarm() {

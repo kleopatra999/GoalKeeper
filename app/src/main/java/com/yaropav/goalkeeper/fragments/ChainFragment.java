@@ -111,6 +111,7 @@ public class ChainFragment extends Fragment {
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekbar);
         if (mChain.isFailed()) seekBar.setEnabled(false);
         seekBar.setMax(6);
+        seekBar.setProgress(mChain.getWeeklySkips());
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

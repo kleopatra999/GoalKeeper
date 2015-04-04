@@ -29,7 +29,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+        fab:menu_colorNormal="@color/accentColor">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/check_day_fab"
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/abc_btn_check_material"
             fab:fab_size="mini"
-            fab:fab_label="@string/check_day" />
+            fab:fab_label="@string/check_day"
+            fab:fab_colorNormal="@color/accentColor"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/delete_chain_fab"
@@ -45,7 +47,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_delete"
             fab:fab_size="mini"
-            fab:fab_label="@string/delete_chain" />
+            fab:fab_label="@string/delete_chain"
+            fab:fab_colorNormal="@color/accentColor"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/add_chain_fab"
@@ -53,7 +56,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_input_add"
             fab:fab_size="mini"
-            fab:fab_label="@string/add_chain" />
+            fab:fab_label="@string/add_chain"
+            fab:fab_colorNormal="@color/accentColor"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 
