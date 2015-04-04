@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -33,6 +34,8 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
     private TextView mChainHeader;
     private ViewPager mPager;
     private FloatingActionMenu mFloatingMenu;
+    private CirclePageIndicator mPageIndicator;
+    private LinearLayout mHolder;
 
     private ArrayList<Chain> mChains;
 
@@ -44,6 +47,9 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
 
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
+        for (int i = 0; i < 5; i++) {
+            mChains.add(new Chain("Chain " + i));
+        }
         setLayout();
 
         Chain currentChain = (Chain) getIntent().getSerializableExtra(CHAIN_EXTRA);
@@ -57,10 +63,10 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(adapter);
         View pagerIndicatorView = getLayoutInflater().inflate(R.layout.pager_indicator, null);
-        CirclePageIndicator pageIndicator = (CirclePageIndicator) pagerIndicatorView.findViewById(R.id.page_indicator);
+        mPageIndicator = (CirclePageIndicator) pagerIndicatorView.findViewById(R.id.page_indicator);
         mChainHeader = (TextView) pagerIndicatorView.findViewById(R.id.chain_name);
-        pageIndicator.setViewPager(mPager);
-        pageIndicator.setOnPageChangeListener(new ChainChangeListener(mPager.getCurrentItem()));
+        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.setOnPageChangeListener(new ChainChangeListener(mPager.getCurrentItem()));
 
         setSupportActionBar((Toolbar) findViewById(R.id.app_bar));
         ActionBar actionBar = getSupportActionBar();
@@ -77,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
             deleteFab.setEnabled(false);
             checkFab.setEnabled(false);
         }
+        mHolder = (LinearLayout) findViewById(R.id.holder);
         addFab.setOnClickListener(this);
     }
 
@@ -109,6 +116,7 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         int index = mChains.size()-1;
         mPager.setCurrentItem(index);
         mChainHeader.setText(mChains.get(index).getName().toUpperCase());
+        getSupportActionBar().getCustomView().invalidate();
     }
 
     @Override

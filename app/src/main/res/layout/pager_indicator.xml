@@ -17,11 +17,19 @@
         android:textColor="@color/textIconColor"
         android:textSize="16sp"/>
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/page_indicator"
-        android:paddingLeft="16dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/holder"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        style="@style/CustomCirclePageIndicator"/>
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="16dp"
+        android:layout_below="@id/chain_name">
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/page_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            style="@style/CustomCirclePageIndicator"/>
+    </LinearLayout>
 </RelativeLayout>
