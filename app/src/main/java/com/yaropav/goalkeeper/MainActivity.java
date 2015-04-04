@@ -31,6 +31,9 @@ public class MainActivity extends ActionBarActivity {
 
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         ArrayList<Chain> chains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
+        for (int i = 0; i < 4; i++) {
+            chains.add(new Chain("Chain " + i));
+        }
         ChainPagerAdapter adapter = new ChainPagerAdapter(chains, getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);

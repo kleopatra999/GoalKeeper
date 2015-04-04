@@ -13,6 +13,10 @@ public class Chain implements Serializable {
     private String mName;
     private ArrayList<Day> mDays;
 
+    public Chain(String name) {
+        mName = name;
+    }
+
     public boolean isFailed() {
         return mIsFailed;
     }

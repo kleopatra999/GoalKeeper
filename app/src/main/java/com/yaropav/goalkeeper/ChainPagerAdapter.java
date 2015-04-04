@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.yaropav.goalkeeper.data.Chain;
+import com.yaropav.goalkeeper.fragments.AddChainFragment;
 import com.yaropav.goalkeeper.fragments.ChainFragment;
 
 import java.util.ArrayList;
@@ -22,12 +23,19 @@ public class ChainPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        return position < mData.size()
+                ? mData.get(position).getName().toUpperCase() : "ADD CHAIN";
+    }
+
+    @Override
     public Fragment getItem(int position) {
-        return ChainFragment.newInstance(mData.get(position));
+        return position < mData.size()
+                ? ChainFragment.newInstance(mData.get(position)) : new AddChainFragment();
     }
 
     @Override
     public int getCount() {
-        return mData.size();
+        return mData.size()+1;
     }
 }
