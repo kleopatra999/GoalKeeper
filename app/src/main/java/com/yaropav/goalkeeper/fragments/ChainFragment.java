@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.yaropav.goalkeeper.MainActivity;
 import com.yaropav.goalkeeper.R;
+import com.yaropav.goalkeeper.calendar.ChainView;
 import com.yaropav.goalkeeper.data.Chain;
 
 /**
@@ -60,6 +62,8 @@ public class ChainFragment extends Fragment {
         setAskForNote(v);
         setSeekbarPreference(v);
         setEditName(v);
+
+        setChainView(v);
 
         return v;
     }
@@ -143,6 +147,12 @@ public class ChainFragment extends Fragment {
                 mChain.setWeeklySkips(seekBar.getProgress());
             }
         });
+    }
+
+    private void setChainView(View v) {
+        GridLayout chainView = (GridLayout) v.findViewById(R.id.chain_view);
+
+        new ChainView(chainView, mChain, getActivity());
     }
 }
 

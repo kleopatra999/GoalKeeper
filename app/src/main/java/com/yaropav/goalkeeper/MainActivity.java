@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.DataSerializer;
+import com.yaropav.goalkeeper.data.Day;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -156,6 +158,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.delete_chain_fab:
                 deleteChain();
+                break;
+            case R.id.check_day_fab:
+                ArrayList<Day> days = mChains.get(mPager.getCurrentItem()).getDays();
+                days.add(new Day("", Calendar.getInstance().getTimeInMillis(), true));
+                Log.d(getClass().getSimpleName(), "" + mChains.get(mPager.getCurrentItem()).getDays().size());
                 break;
         }
     }
