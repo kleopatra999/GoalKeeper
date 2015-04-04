@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onPageSelected(int position) {
             mChainHeader.setText(position < mData.size()
-                    ? mData.get(position).getName() : "ADD CHAIN");
+                    ? mData.get(position).getName().toUpperCase() : "ADD CHAIN");
         }
 
         @Override

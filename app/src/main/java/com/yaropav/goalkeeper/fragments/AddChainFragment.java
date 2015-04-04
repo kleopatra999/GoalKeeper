@@ -16,7 +16,7 @@ import com.yaropav.goalkeeper.R;
 public class AddChainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_chain, container, false);
+        View v = inflater.inflate(R.layout.fragment_addchain, container, false);
         ImageButton addButton = (ImageButton) v.findViewById(R.id.add_chain);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
