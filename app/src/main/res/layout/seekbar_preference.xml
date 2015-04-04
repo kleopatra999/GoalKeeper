@@ -19,7 +19,8 @@
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:ellipsize="marquee"
-        android:fadingEdge="horizontal" />
+        android:fadingEdge="horizontal"
+        android:text="Allowed weekly skips"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,6 +36,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary"
             android:gravity="end"
+            android:text="0 days"
             android:singleLine="true"
             android:minWidth="68dp"
             android:layout_alignParentRight="true"/>
