@@ -36,7 +36,7 @@
             android:id="@+id/check_day_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/abc_btn_check_material"
+            android:src="@drawable/check"
             fab:fab_size="mini"
             fab:fab_label="@string/check_day"
             fab:fab_colorNormal="@color/accentColor"/>
@@ -45,7 +45,7 @@
             android:id="@+id/delete_chain_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_delete"
+            android:src="@drawable/delete"
             fab:fab_size="mini"
             fab:fab_label="@string/delete_chain"
             fab:fab_colorNormal="@color/accentColor"/>
@@ -54,7 +54,7 @@
             android:id="@+id/add_chain_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@drawable/add"
             fab:fab_size="mini"
             fab:fab_label="@string/add_chain"
             fab:fab_colorNormal="@color/accentColor"/>
