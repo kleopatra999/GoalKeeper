@@ -1,5 +1,6 @@
 package com.yaropav.goalkeeper.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -8,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -51,7 +54,18 @@ public class ChainFragment extends Fragment {
     }
 
     private void setEditName(View v) {
-        EditText name = (EditText) v.findViewById(R.id.name_edittext);
+        final EditText name = (EditText) v.findViewById(R.id.name_edittext);
+        RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.edit_text_holder);
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name.requestFocus();
+                InputMethodManager imm = (InputMethodManager)
+                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(name, InputMethodManager.SHOW_IMPLICIT);
+                name.setSelection(name.getText().length());
+            }
+        });
         name.setText(mChain.getName());
         name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,7 +85,6 @@ public class ChainFragment extends Fragment {
             }
         });
     }
-
 
     private void setAskForNote(View v) {
         final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
@@ -112,8 +125,7 @@ public class ChainFragment extends Fragment {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
