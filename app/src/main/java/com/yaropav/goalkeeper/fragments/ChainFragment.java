@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -33,6 +32,8 @@ public class ChainFragment extends Fragment {
     private static final String CHAIN_KEY = "chain";
 
     private boolean mInEditText;
+    private EditText mNameEdit;
+    private InputMethodManager mInputManger;
 
     public static Fragment newInstance(Chain chain) {
         Bundle bundle = new Bundle();
@@ -50,11 +51,17 @@ public class ChainFragment extends Fragment {
 
         mChain = (Chain) getArguments().getSerializable(CHAIN_KEY);
 
+        mInputManger = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
         LinearLayout holder = (LinearLayout) v.findViewById(R.id.chain_info_holder);
+        mNameEdit = (EditText) v.findViewById(R.id.name_edittext);
+
         holder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 ((MainActivity) getActivity()).hideFloatingMenu();
+                mInputManger.hideSoftInputFromWindow(mNameEdit.getWindowToken(), 0);
                 return true;
             }
         });
@@ -70,22 +77,20 @@ public class ChainFragment extends Fragment {
 
 
     private void setEditName(View v) {
-        final EditText name = (EditText) v.findViewById(R.id.name_edittext);
-        if (mChain.isFailed()) name.setEnabled(false);
+        mNameEdit = (EditText) v.findViewById(R.id.name_edittext);
+        if (mChain.isFailed()) mNameEdit.setEnabled(false);
         RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.edit_text_holder);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name.requestFocus();
-                InputMethodManager imm = (InputMethodManager)
-                        getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(name, InputMethodManager.SHOW_IMPLICIT);
-                name.setSelection(name.getText().length());
+                mNameEdit.requestFocus();
+                mInputManger.showSoftInput(mNameEdit, InputMethodManager.SHOW_IMPLICIT);
+                mNameEdit.setSelection(mNameEdit.getText().length());
 
             }
         });
-        name.setText(mChain.getName());
-        name.addTextChangedListener(new TextWatcher() {
+        mNameEdit.setText(mChain.getName());
+        mNameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -99,7 +104,7 @@ public class ChainFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                ((MainActivity) getActivity()).updateHeader(mChain.getName());
+                ((MainActivity) getActivity()).updateHeader();
             }
         });
     }

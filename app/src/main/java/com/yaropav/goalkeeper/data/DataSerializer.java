@@ -12,6 +12,11 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -23,6 +28,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONTokener;
+
 import java.util.ArrayList;
 
 public class DataSerializer<T> {
@@ -46,6 +53,7 @@ public class DataSerializer<T> {
         for(int i = 0; i < jsonArray.length(); i++) {
             try {
                 String obj = jsonArray.getJSONObject(i).toString();
+                Log.d(getClass().getSimpleName(), obj);
                 list.add((T) gson.fromJson(obj, token));
             }
             catch (Exception e) { Log.e(LOG_TAG, e.toString()); }
@@ -53,20 +61,7 @@ public class DataSerializer<T> {
         return list;
     }
 
-    @Nullable
-    public T loadObject(Class token, String key) {
-        String json = prefs.getString(key, null);
-        return (T) gson.fromJson(json, token);
-    }
-
     public void save(ArrayList<T> data, String key) {
-        String json = gson.toJson(data);
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.putString(key, json);
-        edit.commit();
-    }
-
-    public void save(T data, String key) {
         String json = gson.toJson(data);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(key, json);

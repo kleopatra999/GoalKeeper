@@ -106,8 +106,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 broadcast);
     }
 
-    public void updateHeader(String newHeader) {
-        mChainHeader.setText(newHeader);
+    public void updateHeader() {
+        mChainHeader.setText(mChains.get(mPager.getCurrentItem()).getName().toUpperCase());
     }
 
     public void hideFloatingMenu() {
@@ -161,7 +161,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.check_day_fab:
                 ArrayList<Day> days = mChains.get(mPager.getCurrentItem()).getDays();
-                days.add(new Day("", Calendar.getInstance().getTimeInMillis(), true));
+                days.add(new Day("", 1000, false));
                 Log.d(getClass().getSimpleName(), "" + mChains.get(mPager.getCurrentItem()).getDays().size());
                 break;
         }

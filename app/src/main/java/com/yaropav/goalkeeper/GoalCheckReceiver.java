@@ -26,7 +26,7 @@ public class GoalCheckReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         DataSerializer<Chain> serializer = new DataSerializer<>(context);
         ArrayList<Chain> chains = serializer.loadList(Chain.class, "chains");
-        if(chains != null && !chains.isEmpty()) {
+        if(chains != null && !chains.isEmpty()) { //todo skip failed chains
             for(Chain chain : chains) {
                 if (chain.isFailed()) continue;
                 ArrayList<Day> days = chain.getDays();
@@ -54,10 +54,9 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                     chain.setFailed(true);
                     notifyFail(context, chain);
                 }
-
-                serializer.save(chain, MainActivity.CHAINS_PREF_KEY);
             }
         }
+        serializer.save(chains, MainActivity.CHAINS_PREF_KEY);
     }
 
     private void notifyFail(Context context, Chain chain) {
