@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,6 +42,9 @@ public class ChainFragment extends Fragment {
         ((TextView) v.findViewById(R.id.seekbar_title)).setText("Weekly goals");
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekbar);
         seekBar.setMax(7);
+
+        EditText name = (EditText) v.findViewById(R.id.name_edittext);
+        name.setText(mChain.getName());
 
         return v;
     }

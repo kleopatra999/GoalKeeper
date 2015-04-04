@@ -8,15 +8,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <View
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:background="@android:color/holo_green_dark"/>
 
+        <include layout="@layout/listitem_divider"/>
         <include layout="@layout/checkbox_preference"/>
 
+        <include layout="@layout/listitem_divider"/>
         <include layout="@layout/seekbar_preference"/>
+
+        <include layout="@layout/listitem_divider"/>
+        <include layout="@layout/edittext_preference"/>
+
     </LinearLayout>
 
 
