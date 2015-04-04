@@ -46,11 +46,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
         setLayout();
-
         Chain currentChain = (Chain) getIntent().getSerializableExtra(CHAIN_EXTRA);
         if (currentChain != null) {
             mPager.setCurrentItem(mChains.indexOf(currentChain));
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DataSerializer<Chain> serializer = new DataSerializer<>(this);
+        serializer.save(mChains, CHAINS_PREF_KEY);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataSerializer<Chain> serializer = new DataSerializer<>(this);
+        mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
     }
 
     private void setLayout() {

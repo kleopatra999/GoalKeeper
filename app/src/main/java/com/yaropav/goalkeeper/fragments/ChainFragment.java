@@ -2,7 +2,10 @@ package com.yaropav.goalkeeper.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -38,18 +41,38 @@ public class ChainFragment extends Fragment {
         mChain = (Chain) getArguments().getSerializable(CHAIN_KEY);
 
         setAskForNote(v);
-
-        EditText name = (EditText) v.findViewById(R.id.name_edittext);
-        name.setText(mChain.getName());
+        setSeekbarPreference(v);
+        setEditName(v);
 
         return v;
+    }
+
+    private void setEditName(View v) {
+        EditText name = (EditText) v.findViewById(R.id.name_edittext);
+        name.setText(mChain.getName());
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 
     private void setAskForNote(View v) {
         final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
         View holder = v.findViewById(R.id.checkbox_holder);
-
+        checkBox.setChecked(mChain.isWantNotes());
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,14 +83,20 @@ public class ChainFragment extends Fragment {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //todo save to prefs
+                mChain.setWantNotes(isChecked);
             }
         });
     }
 
     private void setSeekbarPreference(View v) {
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekbar);
-        seekBar.setMax(7);
+        seekBar.setMax(6);
+        seekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
+            }
+        });
 
         final TextView seekBarValue = (TextView) v.findViewById(R.id.seekbar_value);
         seekBarValue.setText(mChain.getWeekAim() + " days");
@@ -80,12 +109,11 @@ public class ChainFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                mChain.setWeekAim(seekBar.getProgress());
             }
         });
     }

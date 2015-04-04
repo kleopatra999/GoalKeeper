@@ -12,6 +12,7 @@ public class Chain implements Serializable {
     private int mWeekAim;
     private String mName;
     private ArrayList<Day> mDays;
+    private boolean mWantNotes;
 
     public Chain(String name) {
         mName = name;
@@ -48,5 +49,13 @@ public class Chain implements Serializable {
 
     public void markThisDay(Day day){
         getDays().add(day);
+    }
+
+    public boolean isWantNotes() {
+        return mWantNotes;
+    }
+
+    public void setWantNotes(boolean wantNotes) {
+        mWantNotes = wantNotes;
     }
 }
