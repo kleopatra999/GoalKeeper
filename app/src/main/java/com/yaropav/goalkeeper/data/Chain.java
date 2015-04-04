@@ -9,10 +9,8 @@ import java.util.Date;
 public class Chain {
     private boolean mIsFailed;
     private int mWeekAim;
-    private int mCompleted;
     private String mName;
-    private ArrayList<Note> mNotes;
-    private Date mStartingDate;
+    private ArrayList<Day> mDays;
 
     public boolean isFailed() {
         return mIsFailed;
@@ -30,14 +28,6 @@ public class Chain {
         mWeekAim = weekAim;
     }
 
-    public int getCompleted() {
-        return mCompleted;
-    }
-
-    public void setCompleted(int completed) {
-        mCompleted = completed;
-    }
-
     public String getName() {
         return mName;
     }
@@ -46,19 +36,12 @@ public class Chain {
         mName = name;
     }
 
-    public ArrayList<Note> getNotes() {
-        return mNotes;
+    public ArrayList<Day> getDays() {
+        ArrayList<Day> days = mDays == null ? new ArrayList<Day>() : mDays;
+        return days;
     }
 
-    public void setNotes(ArrayList<Note> notes) {
-        mNotes = notes;
-    }
-
-    public Date getStartingDate() {
-        return mStartingDate;
-    }
-
-    public void setStartingDate(Date startingDate) {
-        mStartingDate = startingDate;
+    public void markThisDay(Day day){
+        getDays().add(day);
     }
 }
