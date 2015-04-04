@@ -2,14 +2,13 @@ package com.yaropav.goalkeeper.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Ярик on 04.04.2015.
  */
 public class Chain implements Serializable {
     private boolean mIsFailed;
-    private int mWeekAim;
+    private int mWeeklySkips;
     private String mName;
     private ArrayList<Day> mDays;
     private boolean mWantNotes;
@@ -26,12 +25,12 @@ public class Chain implements Serializable {
         mIsFailed = isFailed;
     }
 
-    public int getWeekAim() {
-        return mWeekAim;
+    public int getWeeklySkips() {
+        return mWeeklySkips;
     }
 
-    public void setWeekAim(int weekAim) {
-        mWeekAim = weekAim;
+    public void setWeeklySkips(int weeklySkips) {
+        mWeeklySkips = weeklySkips;
     }
 
     public String getName() {

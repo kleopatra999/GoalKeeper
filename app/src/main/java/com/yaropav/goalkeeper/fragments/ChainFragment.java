@@ -55,6 +55,7 @@ public class ChainFragment extends Fragment {
 
     private void setEditName(View v) {
         final EditText name = (EditText) v.findViewById(R.id.name_edittext);
+        if (mChain.isFailed()) name.setEnabled(false);
         RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.edit_text_holder);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +89,7 @@ public class ChainFragment extends Fragment {
 
     private void setAskForNote(View v) {
         final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
+        if (mChain.isFailed()) checkBox.setEnabled(false);
         View holder = v.findViewById(R.id.checkbox_holder);
         checkBox.setChecked(mChain.isWantNotes());
         holder.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +109,7 @@ public class ChainFragment extends Fragment {
 
     private void setSeekbarPreference(View v) {
         SeekBar seekBar = (SeekBar) v.findViewById(R.id.seekbar);
+        if (mChain.isFailed()) seekBar.setEnabled(false);
         seekBar.setMax(6);
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -116,7 +119,7 @@ public class ChainFragment extends Fragment {
         });
 
         final TextView seekBarValue = (TextView) v.findViewById(R.id.seekbar_value);
-        seekBarValue.setText(mChain.getWeekAim() + " days");
+        seekBarValue.setText(mChain.getWeeklySkips() + " days");
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -129,7 +132,7 @@ public class ChainFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mChain.setWeekAim(seekBar.getProgress());
+                mChain.setWeeklySkips(seekBar.getProgress());
             }
         });
     }

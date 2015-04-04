@@ -1,6 +1,5 @@
 package com.yaropav.goalkeeper;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -27,8 +26,9 @@ public class GoalCheckReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         DataSerializer<Chain> serializer = new DataSerializer<>(context);
         ArrayList<Chain> chains = serializer.loadList(Chain.class, "chains");
-        if(chains != null && !chains.isEmpty()) { //todo skip failed chains
+        if(chains != null && !chains.isEmpty()) {
             for(Chain chain : chains) {
+                if (chain.isFailed()) continue;
                 ArrayList<Day> days = chain.getDays();
                 Day today = days.get(days.size());
 
@@ -43,7 +43,7 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK); //todo probably it won't work for some locales
                 for (int i = 0; i < dayOfWeek; i++ )  week.add(days.get(days.size() - i));
 
-                int allowedNumOfSkips = 7 - chain.getWeekAim();
+                int allowedNumOfSkips = 7 - chain.getWeeklySkips();
                 int failsThisWeek = 0;
 
                 for(Day day : week) {
