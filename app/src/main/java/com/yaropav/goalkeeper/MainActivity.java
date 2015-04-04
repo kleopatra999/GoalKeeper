@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,21 +20,20 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.DataSerializer;
-import com.yaropav.goalkeeper.fragments.AddChainFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class MainActivity extends ActionBarActivity implements AddChainFragment.OnChainCreatedListener,
-        View.OnClickListener {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static final String CHAINS_PREF_KEY = "pref_key_chains";
     public static final String CHAIN_EXTRA = "current chain";
 
     private TextView mChainHeader;
     private ViewPager mPager;
-    private FloatingActionMenu mFloatingMenu;
+    private FloatingActionButton mAddFab, mDeleteFab, mCheckFab;
+    private FloatingActionMenu mMenuFab;
     private CirclePageIndicator mPageIndicator;
 
     private ArrayList<Chain> mChains;
@@ -43,7 +43,6 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         scheduleAlarm();
-
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
         setLayout();
@@ -70,16 +69,16 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(pagerIndicatorView);
 
-        mFloatingMenu = (FloatingActionMenu) findViewById(R.id.fam);
-        FloatingActionButton checkFab, addFab, deleteFab;
-        checkFab = (FloatingActionButton) findViewById(R.id.check_day_fab);
-        addFab = (FloatingActionButton) findViewById(R.id.add_chain_fab);
-        deleteFab = (FloatingActionButton) findViewById(R.id.delete_chain_fab);
+        mMenuFab = (FloatingActionMenu) findViewById(R.id.fam);
+        mCheckFab = (FloatingActionButton) findViewById(R.id.check_day_fab);
+        mAddFab = (FloatingActionButton) findViewById(R.id.add_chain_fab);
+        mDeleteFab = (FloatingActionButton) findViewById(R.id.delete_chain_fab);
         if (mChains.isEmpty()) {
-            deleteFab.setEnabled(false);
-            checkFab.setEnabled(false);
+            mDeleteFab.setVisibility(View.GONE);
+            mCheckFab.setVisibility(View.GONE);
         }
-        addFab.setOnClickListener(this);
+        mAddFab.setOnClickListener(this);
+        mDeleteFab.setOnClickListener(this);
     }
 
     private void scheduleAlarm() {
@@ -103,8 +102,8 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         return true;
     }
 
-    @Override
-    public void onChainCreated() {
+    private void createChain() {
+        mMenuFab.close(true);
         ChainPagerAdapter adapter = (ChainPagerAdapter)mPager.getAdapter();
         mChains.add(new Chain("My awesome chain"));
         adapter.notifyDataSetChanged();
@@ -112,13 +111,34 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         mPager.setCurrentItem(index);
         mChainHeader.setText(mChains.get(index).getName().toUpperCase());
         mPageIndicator.requestLayout();
+        mCheckFab.setVisibility(View.VISIBLE);
+        mDeleteFab.setVisibility(View.VISIBLE);
+        mPager.setVisibility(View.VISIBLE);
+    }
+
+    private void deleteChain() {
+        mChains.remove(mPager.getCurrentItem());
+        mPager.getAdapter().notifyDataSetChanged();
+        mPageIndicator.requestLayout();
+        if (mChains.isEmpty()) {
+            mCheckFab.setVisibility(View.GONE);
+            mDeleteFab.setVisibility(View.GONE);
+            mCheckFab.setLabelVisibility(View.GONE);
+            mDeleteFab.setLabelVisibility(View.GONE);
+            mPager.setVisibility(View.GONE);
+            mChainHeader.setText(R.string.no_chains);
+        }
+        mMenuFab.close(true);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_chain_fab:
-                onChainCreated();
+                createChain();
+                break;
+            case R.id.delete_chain_fab:
+                deleteChain();
                 break;
         }
     }
@@ -130,20 +150,16 @@ public class MainActivity extends ActionBarActivity implements AddChainFragment.
         }
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
         @Override
         public void onPageSelected(int position) {
             mChainHeader.setText(position < mChains.size()
-                    ? mChains.get(position).getName().toUpperCase() : "No chains");
+                    ? mChains.get(position).getName().toUpperCase() : getString(R.string.no_chains));
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
+        public void onPageScrollStateChanged(int state) { }
     }
 
 }

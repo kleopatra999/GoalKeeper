@@ -11,4 +11,6 @@
     <string name="check_day">Check day!</string>
     <string name="delete_chain">Delete chain</string>
 
+    <string name="no_chains">No chains</string>
+
 </resources>

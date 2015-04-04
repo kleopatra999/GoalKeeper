@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.yaropav.goalkeeper.data.Chain;
-import com.yaropav.goalkeeper.fragments.AddChainFragment;
 import com.yaropav.goalkeeper.fragments.ChainFragment;
 
 import java.util.ArrayList;
