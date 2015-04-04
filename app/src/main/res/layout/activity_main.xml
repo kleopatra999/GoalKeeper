@@ -7,18 +7,17 @@
         android:id="@+id/app_bar"
         layout="@layout/toolbar"/>
 
-    <ImageView
-        android:layout_below="@id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@drawable/shadow_toolbar"/>
-
-
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"/>
+
+    <ImageView
+        android:layout_below="@id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/shadow_toolbar"/>
 
 </RelativeLayout>
