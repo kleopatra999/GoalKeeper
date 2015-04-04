@@ -108,11 +108,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mChainHeader.setText(newHeader);
     }
 
+    public void hideFloatingMenu() {
+        mMenuFab.close(true);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     private void createChain() {
         mMenuFab.close(true);

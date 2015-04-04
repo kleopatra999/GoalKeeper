@@ -13,7 +13,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -46,12 +48,22 @@ public class ChainFragment extends Fragment {
 
         mChain = (Chain) getArguments().getSerializable(CHAIN_KEY);
 
+        LinearLayout holder = (LinearLayout) v.findViewById(R.id.chain_info_holder);
+        holder.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ((MainActivity) getActivity()).hideFloatingMenu();
+                return true;
+            }
+        });
+
         setAskForNote(v);
         setSeekbarPreference(v);
         setEditName(v);
 
         return v;
     }
+
 
     private void setEditName(View v) {
         final EditText name = (EditText) v.findViewById(R.id.name_edittext);
@@ -65,6 +77,7 @@ public class ChainFragment extends Fragment {
                         getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(name, InputMethodManager.SHOW_IMPLICIT);
                 name.setSelection(name.getText().length());
+
             }
         });
         name.setText(mChain.getName());
@@ -112,12 +125,6 @@ public class ChainFragment extends Fragment {
         if (mChain.isFailed()) seekBar.setEnabled(false);
         seekBar.setMax(6);
         seekBar.setProgress(mChain.getWeeklySkips());
-        seekBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return false;
-            }
-        });
 
         final TextView seekBarValue = (TextView) v.findViewById(R.id.seekbar_value);
         seekBarValue.setText(mChain.getWeeklySkips() + " days");
