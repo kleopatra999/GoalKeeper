@@ -4,4 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="add_chain">Add new chain</string>
+
+    <string name="chain_failed">Chain failed!</string>
+    <string name="you_failed">You failed</string>
+
+    <string name="check_day">Check day!</string>
+    <string name="delete_chain">Delete chain</string>
+
 </resources>
