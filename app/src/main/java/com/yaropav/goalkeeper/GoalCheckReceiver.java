@@ -26,8 +26,8 @@ public class GoalCheckReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         DataSerializer<Chain> serializer = new DataSerializer<>(context);
         ArrayList<Chain> chains = serializer.loadList(Chain.class, MainActivity.CHAINS_PREF_KEY);
-        if(chains != null && !chains.isEmpty()) {
-            for(Chain chain : chains) {
+        if (chains != null && !chains.isEmpty()) {
+            for (Chain chain : chains) {
                 int daysPassed = 0, tasksFailed = 0;
                 ArrayList<Day> days = chain.getDays();
                 if (days.isEmpty()) continue;
@@ -39,21 +39,22 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 firstWeekDay.set(Calendar.DAY_OF_WEEK, firstWeekDay.getFirstDayOfWeek());
                 Calendar yesterday = Calendar.getInstance();
                 yesterday.add(Calendar.DATE, -1);
-                while(firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
-                    yesterday.add(Calendar.DATE, -1);
-                    daysPassed++;
-                    int dayIndex = days.size()-daysPassed;
-                    if(dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
-                    if (tasksFailed > chain.getWeeklySkips()) {
-                        days.get(dayIndex).setNote(context.getString(R.string.note_failed));
-                        chain.setFailed(true);
-                        notifyFail(context, chain);
-                        break;
+                if (days.size() != 1 && days.size() > chain.getWeeklySkips())
+                    while (firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
+                        yesterday.add(Calendar.DATE, -1);
+                        daysPassed++;
+                        int dayIndex = days.size() - daysPassed;
+                        if (dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
+                        if (tasksFailed > chain.getWeeklySkips()) {
+                            days.get(dayIndex).setNote(context.getString(R.string.note_failed));
+                            chain.setFailed(true);
+                            notifyFail(context, chain);
+                            break;
+                        }
                     }
-                }
             }
             Calendar today = Calendar.getInstance();
-            for(int i = 0; i < chains.size(); i++) {
+            for (int i = 0; i < chains.size(); i++) {
                 chains.get(i).getDays().add(new Day(today.getTimeInMillis()));
             }
         }

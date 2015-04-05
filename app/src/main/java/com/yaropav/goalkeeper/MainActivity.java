@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void verifyChains() {
-        for(Chain chain : mChains) {
+        for (Chain chain : mChains) {
             int daysPassed = 0, tasksFailed = 0;
             ArrayList<Day> days = chain.getDays();
             if (days.isEmpty()) continue;
@@ -71,17 +71,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             firstWeekDay.set(Calendar.DAY_OF_WEEK, firstWeekDay.getFirstDayOfWeek());
             Calendar yesterday = Calendar.getInstance();
             yesterday.add(Calendar.DATE, -1);
-            while(firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
-                yesterday.add(Calendar.DATE, -1);
-                daysPassed++;
-                int dayIndex = days.size()-daysPassed;
-                if(dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
-                if (tasksFailed > chain.getWeeklySkips()) {
-                    days.get(dayIndex).setNote(getString(R.string.note_failed));
-                    chain.setFailed(true);
-                    break;
+            if (days.size() != 1 && days.size() > chain.getWeeklySkips())
+                while (firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
+                    yesterday.add(Calendar.DATE, -1);
+                    daysPassed++;
+                    int dayIndex = days.size() - daysPassed;
+                    if (dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
+                    if (tasksFailed > chain.getWeeklySkips()) {
+                        days.get(dayIndex).setNote(getString(R.string.note_failed));
+                        chain.setFailed(true);
+                        break;
+                    }
                 }
-            }
         }
     }
 
@@ -94,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private void setLayout() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-           getWindow().setStatusBarColor(getResources().getColor(R.color.darkPrimaryColor));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.darkPrimaryColor));
         }
 
         ChainPagerAdapter adapter = new ChainPagerAdapter(mChains, getSupportFragmentManager());
@@ -154,10 +155,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private void createChain() {
         mMenuFab.close(true);
-        ChainPagerAdapter adapter = (ChainPagerAdapter)mPager.getAdapter();
+        ChainPagerAdapter adapter = (ChainPagerAdapter) mPager.getAdapter();
         mChains.add(new Chain(getString(R.string.default_chain_name)));
         adapter.notifyDataSetChanged();
-        int index = mChains.size()-1;
+        int index = mChains.size() - 1;
         mPager.setCurrentItem(index);
         mChainHeader.setText(mChains.get(index).getName().toUpperCase());
         mPageIndicator.requestLayout();
@@ -190,8 +191,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (chain.isWantNotes()) {
             AbstractDialog.newInstance(day, AddNoteDialog.class)
                     .show(getSupportFragmentManager(), "add_note");
-        }
-        else {
+        } else {
             day.setNote(getString(R.string.default_note));
         }
         mPager.getAdapter().notifyDataSetChanged();
@@ -229,13 +229,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mChainHeader.setText(position < mChains.size()
                     ? chain.getName().toUpperCase() : getString(R.string.no_chains));
             ArrayList<Day> days = chain.getDays();
-            if (!days.isEmpty() && days.get(days.size()-1).isCompleted()) {
+            if (!days.isEmpty() && days.get(days.size() - 1).isCompleted()) {
                 mCheckFab.setEnabled(false);
             } else mCheckFab.setEnabled(true);
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) { }
+        public void onPageScrollStateChanged(int state) {
+        }
     }
 
 }
