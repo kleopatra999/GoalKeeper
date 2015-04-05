@@ -219,7 +219,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-            if (!mChains.isEmpty()) {
+            if (mChains.isEmpty()) {
                 mChainHeader.setText(getString(R.string.no_chains));
                 return;
             }
