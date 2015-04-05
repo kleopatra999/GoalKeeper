@@ -57,6 +57,10 @@ public class ChainView {
         int indicator = i+1;
         cellTextView.setText("" + indicator);
 
+        boolean isCompleted = chain.getDays().get(i).isCompleted();
+        if(isCompleted) cellTextView.setBackgroundResource(R.drawable.circle_bg_green);
+        else cellTextView.setBackgroundResource(R.drawable.circle_bg_red);
+
         holder.addView(cell);
 
         Log.d(getClass().getSimpleName(), "day # i");

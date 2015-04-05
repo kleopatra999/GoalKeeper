@@ -155,8 +155,9 @@ public class ChainFragment extends Fragment {
     }
 
     private void setChainView(View v) {
-        GridLayout chainView = (GridLayout) v.findViewById(R.id.chain_view);
 
+
+        GridLayout chainView = (GridLayout) v.findViewById(R.id.chain_view);
         new ChainView(chainView, mChain, getActivity());
     }
 }

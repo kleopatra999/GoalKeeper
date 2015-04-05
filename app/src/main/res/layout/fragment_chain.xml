@@ -16,24 +16,30 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content" />-->
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/grid_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Started on April 2015"/>
+                android:padding="10dp"
+                android:textAllCaps="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:text="Started on"/>
             <GridLayout
                 android:id="@+id/chain_view"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/grid_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:columnCount="7"
                 android:orientation="horizontal" >
             </GridLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <include layout="@layout/listitem_divider"/>
         <include layout="@layout/checkbox_preference"/>
