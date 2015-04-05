@@ -23,6 +23,12 @@ import com.yaropav.goalkeeper.MainActivity;
 import com.yaropav.goalkeeper.R;
 import com.yaropav.goalkeeper.calendar.ChainView;
 import com.yaropav.goalkeeper.data.Chain;
+import com.yaropav.goalkeeper.data.Day;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by mrbimc on 04.04.2015.
@@ -155,6 +161,17 @@ public class ChainFragment extends Fragment {
     }
 
     private void setChainView(View v) {
+        TextView title = (TextView) v.findViewById(R.id.grid_title);
+
+        ArrayList<Day> days = mChain.getDays();
+        if(days != null && !days.isEmpty()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(days.get(0).getTimeStamp());
+            String time = new SimpleDateFormat("MMMM dd yyyy", Locale.getDefault()).format(calendar.getTime());
+
+            title.setText(title.getText() + time);
+        }
+        else {title.setVisibility(View.GONE);}
 
 
         GridLayout chainView = (GridLayout) v.findViewById(R.id.chain_view);
