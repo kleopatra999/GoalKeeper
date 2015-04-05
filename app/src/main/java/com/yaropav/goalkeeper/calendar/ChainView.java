@@ -32,9 +32,6 @@ public class ChainView {
 
         ArrayList<Day> days = chain.getDays();
 
-
-        Log.d(getClass().getSimpleName(), "num of days in chain =" + days.size());
-
         int counter = 0;
 
         for (int i = 0; i < days.size(); i++) {
@@ -47,7 +44,6 @@ public class ChainView {
 
             drawDay(i);
 
-
             counter++;
         }
     }
@@ -58,11 +54,12 @@ public class ChainView {
 
         TextView cellTextView = (TextView) cell.findViewById(R.id.cell);
 
-        cellTextView.setText("" + i + 1);
+        int indicator = i+1;
+        cellTextView.setText("" + indicator);
 
         holder.addView(cell);
 
-        Log.d(getClass().getSimpleName(), "day i");
+        Log.d(getClass().getSimpleName(), "day # i");
 
     }
 

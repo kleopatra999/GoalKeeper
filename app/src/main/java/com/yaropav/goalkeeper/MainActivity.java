@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        scheduleAlarm();
+        // scheduleAlarm();
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
         setLayout();
