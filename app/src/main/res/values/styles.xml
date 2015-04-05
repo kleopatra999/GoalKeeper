@@ -11,4 +11,9 @@
         <item name="pageColor">#BDBDBD</item>
     </style>
 
+    <style name="FullHeightDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@drawable/dialog_background</item>
+    </style>
+
 </resources>

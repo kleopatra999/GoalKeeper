@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // scheduleAlarm();
+        scheduleAlarm();
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
         setLayout();
@@ -174,7 +174,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            mMenuFab.close(true);
+        }
 
         @Override
         public void onPageSelected(int position) {

@@ -35,7 +35,7 @@ public class ChainFragment extends Fragment {
     private EditText mNameEdit;
     private InputMethodManager mInputManger;
 
-    public static Fragment newInstance(Chain chain) {
+    public static ChainFragment newInstance(Chain chain) {
         Bundle bundle = new Bundle();
         ChainFragment fragment = new ChainFragment();
         bundle.putSerializable(CHAIN_KEY, chain);

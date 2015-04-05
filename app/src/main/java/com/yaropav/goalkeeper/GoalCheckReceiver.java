@@ -25,12 +25,13 @@ public class GoalCheckReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         DataSerializer<Chain> serializer = new DataSerializer<>(context);
-        ArrayList<Chain> chains = serializer.loadList(Chain.class, "chains");
-        if(chains != null && !chains.isEmpty()) { //todo skip failed chains
+        ArrayList<Chain> chains = serializer.loadList(Chain.class, MainActivity.CHAINS_PREF_KEY);
+        if(chains != null && !chains.isEmpty()) {
             for(Chain chain : chains) {
                 if (chain.isFailed()) continue;
                 ArrayList<Day> days = chain.getDays();
-                Day today = days.get(days.size());
+                if(days.isEmpty()) continue;
+                Day today = days.get(days.size()-1);
 
                 if(!DateUtils.isToday(today.getTimeStamp())) {
                     today = new Day("You miserably failed this day", Calendar.getInstance().getTimeInMillis(), false);
@@ -41,7 +42,7 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(today.getTimeStamp());
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK); //todo probably it won't work for some locales
-                for (int i = 0; i < dayOfWeek; i++ )  week.add(days.get(days.size() - i));
+                for (int i = 0; i < dayOfWeek; i++ )  week.add(days.get(days.size() - 1 - i));
 
                 int allowedNumOfSkips = 7 - chain.getWeeklySkips();
                 int failsThisWeek = 0;
