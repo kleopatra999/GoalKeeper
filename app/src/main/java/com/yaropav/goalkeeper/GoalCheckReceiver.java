@@ -95,7 +95,7 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 .setContentTitle(context.getString(R.string.chain_failed))
                 .setContentText(context.getString(R.string.you_failed) + " " + chain.getName())
                 .setContentIntent(contentIntent)
-                .setSmallIcon(android.R.drawable.sym_def_app_icon);
+                .setSmallIcon(R.drawable.notif_chain_failed);
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(NOTIF_ID, builder.build());
