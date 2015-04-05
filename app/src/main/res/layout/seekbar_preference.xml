@@ -20,7 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
-        android:text="Allowed weekly skips"/>
+        android:text="@string/weekly_skips"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

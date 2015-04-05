@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.yaropav.goalkeeper.R;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.Day;
+import com.yaropav.goalkeeper.fragments.AbstractDialog;
 import com.yaropav.goalkeeper.fragments.InfoDialog;
 
 import java.util.ArrayList;
@@ -28,10 +29,20 @@ public class ChainView implements View.OnClickListener {
         mHolder = holder;
         mChain = chain;
         mContext = context;
-        redraw();
+        draw();
     }
 
-    public void redraw() {
+    public void markTodayDone() {
+        int last = mChain.getDays().size();
+        LinearLayout cell = (LinearLayout) mHolder.getChildAt(last-1);
+        TextView cellTextView = (TextView) cell.findViewById(R.id.cell);
+        cellTextView.setBackgroundResource(R.drawable.circle_bg_green);
+        cell.setTag(last);
+        cell.setOnClickListener(this);
+        cellTextView.invalidate();
+    }
+
+    private void draw() {
         ArrayList<Day> days = mChain.getDays();
         if (days.isEmpty()) return;
         for (int i = 0; i < days.size()-1; i++) {
@@ -70,7 +81,7 @@ public class ChainView implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Day day = mChain.getDays().get((Integer) view.getTag());
-        InfoDialog.newInstance(day)
+        AbstractDialog.newInstance(day, InfoDialog.class)
                 .show(((ActionBarActivity) mContext).getSupportFragmentManager(), "info");
     }
 }

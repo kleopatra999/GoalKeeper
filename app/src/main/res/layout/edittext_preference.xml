@@ -28,7 +28,7 @@
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:singleLine="true"
-            android:text="Chain name"
+            android:text="@string/chain_name"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <!-- Dummy layout to take onStart focus -->

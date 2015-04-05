@@ -13,5 +13,9 @@
 
     <string name="no_chains">No chains</string>
     <string name="today">Today</string>
-
+    <string name="note_option">Note on daily success</string>
+    <string name="chain_name">Chain name</string>
+    <string name="default_note">Your note could be here</string>
+    <string name="weekly_skips">Allowed weekly skips</string>
+    <string name="note_hint">type your note</string>
 </resources>

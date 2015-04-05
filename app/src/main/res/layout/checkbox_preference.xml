@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:ellipsize="marquee"
-            android:text="Note on daily success"
+            android:text="@string/note_option"
             android:fadingEdge="horizontal" />
 
         <TextView android:id="@+id/checkbox_summary"

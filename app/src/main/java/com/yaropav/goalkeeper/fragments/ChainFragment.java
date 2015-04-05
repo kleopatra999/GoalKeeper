@@ -201,8 +201,8 @@ public class ChainFragment extends Fragment {
             Chain extra = (Chain) intent.getSerializableExtra(MainActivity.CHAIN_EXTRA);
             Log.d(getClass().getSimpleName(), "here");
             if (mChain == extra) {
-                Log.d(getClass().getSimpleName(), "here");
-                mChainView.redraw();
+                //todo day color is not updated
+                mChainView.markTodayDone();
             }
         }
     }

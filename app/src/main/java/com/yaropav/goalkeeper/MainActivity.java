@@ -21,6 +21,9 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.yaropav.goalkeeper.data.Chain;
 import com.yaropav.goalkeeper.data.DataSerializer;
 import com.yaropav.goalkeeper.data.Day;
+import com.yaropav.goalkeeper.fragments.AbstractDialog;
+import com.yaropav.goalkeeper.fragments.AddNoteDialog;
+import com.yaropav.goalkeeper.fragments.InfoDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -150,13 +153,22 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mChainHeader.setText(R.string.no_chains);
         }
         mMenuFab.close(true);
+        //todo view pager doesn't destroy fragments
     }
 
     private void checkDay() {
         Chain chain = mChains.get(mPager.getCurrentItem());
-        chain.getDays().get(chain.getDays().size()-1).setIsCompleted(true);
+        Day day = chain.getDays().get(chain.getDays().size() - 1);
+        day.setIsCompleted(true);
         Intent redrawIntent = new Intent(REDRAW_INTENT);
         redrawIntent.putExtra(CHAIN_EXTRA, chain);
+        if (chain.isWantNotes()) {
+            AbstractDialog.newInstance(day, AddNoteDialog.class)
+                    .show(getSupportFragmentManager(), "add_note");
+        }
+        else {
+            day.setNote(getString(R.string.default_note));
+        }
         sendBroadcast(redrawIntent);
     }
 

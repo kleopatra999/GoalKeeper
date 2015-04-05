@@ -17,35 +17,20 @@ import java.util.Locale;
 /**
  * Created by Ярик on 05.04.2015.
  */
-public class InfoDialog extends DialogFragment {
+public class InfoDialog extends AbstractDialog {
 
-    private static final String DAY_KEY = "day";
-
-    public static InfoDialog newInstance(Day day) {
-        Bundle bundle = new Bundle();
-        InfoDialog fragment = new InfoDialog();
-        bundle.putSerializable(DAY_KEY, day);
-        fragment.setArguments(bundle);
-        return fragment;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.dialog_info;
     }
 
-    private Day mDay;
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.fragment_dialog, null);
-        mDay = (Day) getArguments().getSerializable(DAY_KEY);
+    protected void configureLayout(View v) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd yyyy", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(mDay.getTimeStamp());
         ((TextView) v.findViewById(R.id.date)).setText(formatter.format(calendar.getTime()));
         if (!mDay.getNote().equals(""))
             ((TextView) v.findViewById(R.id.note)).setText(mDay.getNote());
-        Dialog dialog = new Dialog(getActivity(), R.style.FullHeightDialog);
-        dialog.setContentView(v);
-        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.dialog_background));
-
-        return dialog;
     }
 }

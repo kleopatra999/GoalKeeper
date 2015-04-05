@@ -6,7 +6,6 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="07.07.2042"
         android:padding="16dp"
         android:textStyle="bold"/>
     <TextView
@@ -16,6 +15,5 @@
         android:paddingLeft="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:layout_below="@id/date"
-        android:text="Your note could be here"/>
+        android:layout_below="@id/date"/>
 </RelativeLayout>
