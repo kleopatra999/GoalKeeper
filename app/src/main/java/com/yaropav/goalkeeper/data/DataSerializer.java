@@ -53,7 +53,6 @@ public class DataSerializer<T> {
         for(int i = 0; i < jsonArray.length(); i++) {
             try {
                 String obj = jsonArray.getJSONObject(i).toString();
-                Log.d(getClass().getSimpleName(), obj);
                 list.add((T) gson.fromJson(obj, token));
             }
             catch (Exception e) { Log.e(LOG_TAG, e.toString()); }

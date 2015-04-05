@@ -151,7 +151,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mChainHeader.setText(R.string.no_chains);
         }
         mMenuFab.close(true);
-        //todo view pager doesn't destroy fragments
     }
 
     private void checkDay() {
@@ -167,7 +166,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         else {
             day.setNote(getString(R.string.default_note));
         }
-        sendBroadcast(redrawIntent);
+        mPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -202,7 +201,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mChainHeader.setText(position < mChains.size()
                     ? chain.getName().toUpperCase() : getString(R.string.no_chains));
             ArrayList<Day> days = chain.getDays();
-            if (days.get(days.size()-1).isCompleted()) {
+            if (!days.isEmpty() && days.get(days.size()-1).isCompleted()) {
                 mCheckFab.setEnabled(false);
             } else mCheckFab.setEnabled(true);
         }

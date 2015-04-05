@@ -44,9 +44,6 @@ public class ChainFragment extends Fragment {
     private boolean mInEditText;
     private EditText mNameEdit;
     private InputMethodManager mInputManger;
-    private ChainView mChainView;
-
-   private RedrawReceiver mReceiver = new RedrawReceiver();
 
     public static ChainFragment newInstance(Chain chain) {
         Bundle bundle = new Bundle();
@@ -57,12 +54,6 @@ public class ChainFragment extends Fragment {
     }
 
     private Chain mChain;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().registerReceiver(mReceiver, new IntentFilter(MainActivity.REDRAW_INTENT));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,12 +83,6 @@ public class ChainFragment extends Fragment {
         setChainView(v);
 
         return v;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(mReceiver);
     }
 
     private void setEditName(View v) {
@@ -191,20 +176,7 @@ public class ChainFragment extends Fragment {
         else {title.setVisibility(View.GONE);}
 
         GridLayout chainHost = (GridLayout) v.findViewById(R.id.chain_view);
-        mChainView = new ChainView(chainHost, mChain, getActivity());
-    }
-
-    private class RedrawReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Chain extra = (Chain) intent.getSerializableExtra(MainActivity.CHAIN_EXTRA);
-            Log.d(getClass().getSimpleName(), "here");
-            if (mChain == extra) {
-                //todo day color is not updated
-                mChainView.markTodayDone();
-            }
-        }
+        new ChainView(chainHost, mChain, getActivity());
     }
 }
 

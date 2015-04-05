@@ -32,16 +32,6 @@ public class ChainView implements View.OnClickListener {
         draw();
     }
 
-    public void markTodayDone() {
-        int last = mChain.getDays().size();
-        LinearLayout cell = (LinearLayout) mHolder.getChildAt(last-1);
-        TextView cellTextView = (TextView) cell.findViewById(R.id.cell);
-        cellTextView.setBackgroundResource(R.drawable.circle_bg_green);
-        cell.setTag(last);
-        cell.setOnClickListener(this);
-        cellTextView.invalidate();
-    }
-
     private void draw() {
         ArrayList<Day> days = mChain.getDays();
         if (days.isEmpty()) return;
