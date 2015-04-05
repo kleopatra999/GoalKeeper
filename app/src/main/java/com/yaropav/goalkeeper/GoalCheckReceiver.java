@@ -54,8 +54,10 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                     chain.setFailed(true);
                     notifyFail(context, chain);
                 }*/
+
                 int daysPassed = 0, tasksFailed = 0;
                 ArrayList<Day> days = chain.getDays();
+                if (days.isEmpty()) continue;
                 Calendar firstWeekDay = Calendar.getInstance();
                 firstWeekDay.set(Calendar.HOUR_OF_DAY, 0);
                 firstWeekDay.clear(Calendar.MINUTE);
@@ -68,7 +70,7 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                     yesterday.add(Calendar.DATE, -1);
                     daysPassed++;
                     int dayIndex = days.size()-daysPassed;
-                    if(!days.get(dayIndex).isCompleted()) tasksFailed++;
+                    if(dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
                     if (tasksFailed > chain.getWeeklySkips()) {
                         days.get(dayIndex).setNote(context.getString(R.string.note_failed));
                         chain.setFailed(true);

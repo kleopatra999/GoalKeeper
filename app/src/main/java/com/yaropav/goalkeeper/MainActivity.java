@@ -101,15 +101,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void scheduleAlarm() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 1);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 5);
+        calendar.add(Calendar.DATE, 1);
         Intent intent = new Intent(this, GoalCheckReceiver.class);
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, intent, 0);
         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                broadcast);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, broadcast);
     }
 
     public void updateHeader() {
