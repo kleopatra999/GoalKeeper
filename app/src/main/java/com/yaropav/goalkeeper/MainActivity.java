@@ -219,9 +219,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
+            if (!mChains.isEmpty()) {
+                mChainHeader.setText(getString(R.string.no_chains));
+                return;
+            }
             Chain chain = mChains.get(position);
-            mChainHeader.setText(position < mChains.size()
-                    ? chain.getName().toUpperCase() : getString(R.string.no_chains));
+            mChainHeader.setText(chain.getName().toUpperCase());
             ArrayList<Day> days = chain.getDays();
             if (!days.isEmpty() && days.get(days.size() - 1).isCompleted()) {
                 mCheckFab.setEnabled(false);
