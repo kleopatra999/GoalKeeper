@@ -147,12 +147,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mMenuFab.close(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
     private void createChain() {
         mMenuFab.close(true);
         ChainPagerAdapter adapter = (ChainPagerAdapter) mPager.getAdapter();
