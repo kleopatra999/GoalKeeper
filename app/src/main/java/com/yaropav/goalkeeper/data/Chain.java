@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.UUID;
 
 /**
@@ -25,6 +26,7 @@ public class Chain implements Serializable {
     public Chain(String name) {
         mName = name;
         mDays = new ArrayList<>();
+        mDays.add(new Day(Calendar.getInstance().getTimeInMillis()));
     }
 
     public boolean isFailed() {

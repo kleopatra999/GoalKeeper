@@ -12,5 +12,6 @@
     <string name="delete_chain">Delete chain</string>
 
     <string name="no_chains">No chains</string>
+    <string name="today">Today</string>
 
 </resources>

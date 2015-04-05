@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     public static final String CHAINS_PREF_KEY = "pref_key_chains";
     public static final String CHAIN_EXTRA = "current chain";
+    public static final String REDRAW_INTENT = "com.yaropav.goalkeeper.redraw_chain";
 
     private TextView mChainHeader;
     private ViewPager mPager;
@@ -71,7 +73,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mPageIndicator = (CirclePageIndicator) pagerIndicatorView.findViewById(R.id.page_indicator);
         mChainHeader = (TextView) pagerIndicatorView.findViewById(R.id.chain_name);
         mPageIndicator.setViewPager(mPager);
-        mPageIndicator.setOnPageChangeListener(new ChainChangeListener(mPager.getCurrentItem()));
 
         setSupportActionBar((Toolbar) findViewById(R.id.app_bar));
         ActionBar actionBar = getSupportActionBar();
@@ -90,6 +91,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mAddFab.setOnClickListener(this);
         mDeleteFab.setOnClickListener(this);
         mCheckFab.setOnClickListener(this);
+
+        mPageIndicator.setOnPageChangeListener(new ChainChangeListener(mPager.getCurrentItem()));
     }
 
     private void scheduleAlarm() {
@@ -120,7 +123,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         return true;
     }
 
-
     private void createChain() {
         mMenuFab.close(true);
         ChainPagerAdapter adapter = (ChainPagerAdapter)mPager.getAdapter();
@@ -150,6 +152,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mMenuFab.close(true);
     }
 
+    private void checkDay() {
+        Chain chain = mChains.get(mPager.getCurrentItem());
+        chain.getDays().get(chain.getDays().size()-1).setIsCompleted(true);
+        Intent redrawIntent = new Intent(REDRAW_INTENT);
+        redrawIntent.putExtra(CHAIN_EXTRA, chain);
+        sendBroadcast(redrawIntent);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -160,9 +170,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 deleteChain();
                 break;
             case R.id.check_day_fab:
-                ArrayList<Day> days = mChains.get(mPager.getCurrentItem()).getDays();
-                days.add(new Day("", 1000, false));
-                Log.d(getClass().getSimpleName(), "" + mChains.get(mPager.getCurrentItem()).getDays().size());
+                checkDay();
                 break;
         }
     }
@@ -180,8 +188,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
+            Chain chain = mChains.get(position);
             mChainHeader.setText(position < mChains.size()
-                    ? mChains.get(position).getName().toUpperCase() : getString(R.string.no_chains));
+                    ? chain.getName().toUpperCase() : getString(R.string.no_chains));
+            ArrayList<Day> days = chain.getDays();
+            if (days.get(days.size()-1).isCompleted()) {
+                mCheckFab.setEnabled(false);
+            } else mCheckFab.setEnabled(true);
         }
 
         @Override

@@ -17,6 +17,10 @@ public class Day implements Serializable {
 
     public Day() { }
 
+    public Day(long timeStamp) {
+        this("", timeStamp, false);
+    }
+
     public Day(String text, long timeStamp, boolean isCompleted) {
         mNote = text;
         mTimeStamp = timeStamp;

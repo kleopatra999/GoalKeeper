@@ -1,10 +1,14 @@
 package com.yaropav.goalkeeper.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +44,9 @@ public class ChainFragment extends Fragment {
     private boolean mInEditText;
     private EditText mNameEdit;
     private InputMethodManager mInputManger;
+    private ChainView mChainView;
+
+   private RedrawReceiver mReceiver = new RedrawReceiver();
 
     public static ChainFragment newInstance(Chain chain) {
         Bundle bundle = new Bundle();
@@ -50,6 +57,12 @@ public class ChainFragment extends Fragment {
     }
 
     private Chain mChain;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().registerReceiver(mReceiver, new IntentFilter(MainActivity.REDRAW_INTENT));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +94,11 @@ public class ChainFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mReceiver);
+    }
 
     private void setEditName(View v) {
         mNameEdit = (EditText) v.findViewById(R.id.name_edittext);
@@ -167,15 +185,26 @@ public class ChainFragment extends Fragment {
         if(days != null && !days.isEmpty()) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(days.get(0).getTimeStamp());
-            String time = new SimpleDateFormat("MMMM dd yyyy", Locale.getDefault()).format(calendar.getTime());
-
-            title.setText(title.getText() + time);
+            String time = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault()).format(calendar.getTime());
+            title.setText(title.getText() + " " + time);
         }
         else {title.setVisibility(View.GONE);}
 
+        GridLayout chainHost = (GridLayout) v.findViewById(R.id.chain_view);
+        mChainView = new ChainView(chainHost, mChain, getActivity());
+    }
 
-        GridLayout chainView = (GridLayout) v.findViewById(R.id.chain_view);
-        new ChainView(chainView, mChain, getActivity());
+    private class RedrawReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Chain extra = (Chain) intent.getSerializableExtra(MainActivity.CHAIN_EXTRA);
+            Log.d(getClass().getSimpleName(), "here");
+            if (mChain == extra) {
+                Log.d(getClass().getSimpleName(), "here");
+                mChainView.redraw();
+            }
+        }
     }
 }
 
