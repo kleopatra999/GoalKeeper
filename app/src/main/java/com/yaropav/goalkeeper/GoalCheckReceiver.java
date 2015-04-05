@@ -28,11 +28,10 @@ public class GoalCheckReceiver extends BroadcastReceiver {
         ArrayList<Chain> chains = serializer.loadList(Chain.class, MainActivity.CHAINS_PREF_KEY);
         if(chains != null && !chains.isEmpty()) {
             for(Chain chain : chains) {
-                if (chain.isFailed()) continue;
-                ArrayList<Day> days = chain.getDays();
-                if(days.isEmpty()) continue;
-                Day today = days.get(days.size()-1);
+                /*if (chain.isFailed()) continue;
 
+                ArrayList<Day> days = chain.getDays();
+                Day today = days.get(days.size()-1);
                 if(!DateUtils.isToday(today.getTimeStamp())) {
                     today = new Day("You miserably failed this day", Calendar.getInstance().getTimeInMillis(), false);
                     days.add(today);
@@ -54,7 +53,33 @@ public class GoalCheckReceiver extends BroadcastReceiver {
                 if(failsThisWeek > allowedNumOfSkips) {
                     chain.setFailed(true);
                     notifyFail(context, chain);
+                }*/
+                int daysPassed = 0, tasksFailed = 0;
+                ArrayList<Day> days = chain.getDays();
+                Calendar firstWeekDay = Calendar.getInstance();
+                firstWeekDay.set(Calendar.HOUR_OF_DAY, 0);
+                firstWeekDay.clear(Calendar.MINUTE);
+                firstWeekDay.clear(Calendar.SECOND);
+                firstWeekDay.clear(Calendar.MILLISECOND);
+                firstWeekDay.set(Calendar.DAY_OF_WEEK, firstWeekDay.getFirstDayOfWeek());
+                Calendar yesterday = Calendar.getInstance();
+                yesterday.add(Calendar.DATE, -1);
+                while(firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
+                    yesterday.add(Calendar.DATE, -1);
+                    daysPassed++;
+                    int dayIndex = days.size()-daysPassed;
+                    if(!days.get(dayIndex).isCompleted()) tasksFailed++;
+                    if (tasksFailed > chain.getWeeklySkips()) {
+                        days.get(dayIndex).setNote(context.getString(R.string.note_failed));
+                        chain.setFailed(true);
+                        notifyFail(context, chain);
+                        break;
+                    }
                 }
+            }
+            Calendar today = Calendar.getInstance();
+            for(int i = 0; i < chains.size(); i++) {
+                chains.get(i).getDays().add(new Day(today.getTimeInMillis()));
             }
         }
         serializer.save(chains, MainActivity.CHAINS_PREF_KEY);

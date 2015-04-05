@@ -18,4 +18,5 @@
     <string name="default_note">Your note could be here</string>
     <string name="weekly_skips">Allowed weekly skips</string>
     <string name="note_hint">type your note</string>
+    <string name="note_failed">You miserably failed this day</string>
 </resources>
