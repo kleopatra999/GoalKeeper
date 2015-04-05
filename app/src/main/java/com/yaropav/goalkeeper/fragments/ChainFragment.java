@@ -86,9 +86,13 @@ public class ChainFragment extends Fragment {
     }
 
     private void setEditName(View v) {
-        mNameEdit = (EditText) v.findViewById(R.id.name_edittext);
-        if (mChain.isFailed()) mNameEdit.setEnabled(false);
         RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.edit_text_holder);
+        mNameEdit = (EditText) v.findViewById(R.id.name_edittext);
+        if (mChain.isFailed()) {
+            mNameEdit.setEnabled(false);
+            holder.setEnabled(false);
+        }
+
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,9 +123,13 @@ public class ChainFragment extends Fragment {
     }
 
     private void setAskForNote(View v) {
-        final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
-        if (mChain.isFailed()) checkBox.setEnabled(false);
         View holder = v.findViewById(R.id.checkbox_holder);
+        final CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
+        if (mChain.isFailed()) {
+            checkBox.setEnabled(false);
+            holder.setEnabled(false);
+        }
+
         checkBox.setChecked(mChain.isWantNotes());
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

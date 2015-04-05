@@ -28,33 +28,6 @@ public class GoalCheckReceiver extends BroadcastReceiver {
         ArrayList<Chain> chains = serializer.loadList(Chain.class, MainActivity.CHAINS_PREF_KEY);
         if(chains != null && !chains.isEmpty()) {
             for(Chain chain : chains) {
-                /*if (chain.isFailed()) continue;
-
-                ArrayList<Day> days = chain.getDays();
-                Day today = days.get(days.size()-1);
-                if(!DateUtils.isToday(today.getTimeStamp())) {
-                    today = new Day("You miserably failed this day", Calendar.getInstance().getTimeInMillis(), false);
-                    days.add(today);
-                }
-
-                ArrayList<Day> week = new ArrayList<>();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(today.getTimeStamp());
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK); //todo probably it won't work for some locales
-                for (int i = 0; i < dayOfWeek; i++ )  week.add(days.get(days.size() - 1 - i));
-
-                int allowedNumOfSkips = 7 - chain.getWeeklySkips();
-                int failsThisWeek = 0;
-
-                for(Day day : week) {
-                    if(!day.isCompleted()) failsThisWeek++;
-                }
-
-                if(failsThisWeek > allowedNumOfSkips) {
-                    chain.setFailed(true);
-                    notifyFail(context, chain);
-                }*/
-
                 int daysPassed = 0, tasksFailed = 0;
                 ArrayList<Day> days = chain.getDays();
                 if (days.isEmpty()) continue;

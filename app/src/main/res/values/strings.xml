@@ -19,4 +19,5 @@
     <string name="weekly_skips">Allowed weekly skips</string>
     <string name="note_hint">type your note</string>
     <string name="note_failed">You miserably failed this day</string>
+    <string name="default_chain_name">My awesome chain</string>
 </resources>

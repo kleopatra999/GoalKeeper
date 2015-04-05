@@ -50,10 +50,38 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         scheduleAlarm();
         DataSerializer<Chain> serializer = new DataSerializer<>(this);
         mChains = serializer.loadList(Chain.class, CHAINS_PREF_KEY);
+        verifyChains();
         setLayout();
         Chain currentChain = (Chain) getIntent().getSerializableExtra(CHAIN_EXTRA);
         if (currentChain != null) {
             mPager.setCurrentItem(mChains.indexOf(currentChain));
+        }
+    }
+
+    private void verifyChains() {
+        for(Chain chain : mChains) {
+            int daysPassed = 0, tasksFailed = 0;
+            ArrayList<Day> days = chain.getDays();
+            if (days.isEmpty()) continue;
+            Calendar firstWeekDay = Calendar.getInstance();
+            firstWeekDay.set(Calendar.HOUR_OF_DAY, 0);
+            firstWeekDay.clear(Calendar.MINUTE);
+            firstWeekDay.clear(Calendar.SECOND);
+            firstWeekDay.clear(Calendar.MILLISECOND);
+            firstWeekDay.set(Calendar.DAY_OF_WEEK, firstWeekDay.getFirstDayOfWeek());
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.add(Calendar.DATE, -1);
+            while(firstWeekDay.get(Calendar.DATE) != yesterday.get(Calendar.DATE)) {
+                yesterday.add(Calendar.DATE, -1);
+                daysPassed++;
+                int dayIndex = days.size()-daysPassed;
+                if(dayIndex >= 0 && !days.get(dayIndex).isCompleted()) tasksFailed++;
+                if (tasksFailed > chain.getWeeklySkips()) {
+                    days.get(dayIndex).setNote(getString(R.string.note_failed));
+                    chain.setFailed(true);
+                    break;
+                }
+            }
         }
     }
 
@@ -127,7 +155,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void createChain() {
         mMenuFab.close(true);
         ChainPagerAdapter adapter = (ChainPagerAdapter)mPager.getAdapter();
-        mChains.add(new Chain("My awesome chain"));
+        mChains.add(new Chain(getString(R.string.default_chain_name)));
         adapter.notifyDataSetChanged();
         int index = mChains.size()-1;
         mPager.setCurrentItem(index);
